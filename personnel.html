@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บุคลากรหมู่บ้าน - หมู่บ้านซับประดู่</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" sizes="16x16" href="logo/logotitle.png"/>
+    
+    <style>
+        :root {
+            --primary: #4d3328;
+            --accent: #ffaf36;
+            --bg: #fdfaf8;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --shadow: 0 10px 30px rgba(77, 51, 40, 0.08);
+        }
+
+        body {
+            font-family: "Prompt", sans-serif;
+            margin: 0;
+            background-color: var(--bg);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* --- Header --- */
+        header {
+            background: linear-gradient(135deg, var(--white) 0%, #f4eee9 100%);
+            padding: 80px 20px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        header h1 {
+            font-size: 42px;
+            color: var(--primary);
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        header h1 i {
+            color: var(--primary); /* โหมดปกติให้ไอคอนเป็นสีน้ำตาลเข้ม */
+            transition: color 0.3s ease;
+        }
+
+        header p {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-top: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 250px;
+            height: 250px;
+            background: rgba(181, 138, 33, 0.08);
+            border-radius: 50%;
+            filter: blur(40px);
+            z-index: 1;
+        }
+
+        /* --- Main Container --- */
+        .container {
+            max-width: 1200px;
+            margin: -30px auto 100px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- Grid & Cards --- */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+            justify-items: center;
+        }
+
+        .profile-card {
+            background: var(--white);
+            width: 100%;
+            max-width: 320px;
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(181, 138, 33, 0.1);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ลูกเล่นสีพื้นหลังครึ่งบนของการ์ด */
+        .profile-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 120px;
+            background: linear-gradient(to bottom, rgba(255, 175, 54, 0.15), transparent);
+            z-index: 0;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(77, 51, 40, 0.15);
+            border-color: var(--accent);
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--white);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            margin: 0 auto 20px;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.4s ease;
+        }
+
+        .profile-card:hover .profile-img {
+            transform: scale(1.05);
+        }
+
+        .profile-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0 0 5px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-role {
+            font-size: 16px;
+            color: #b58a21; /* สีทอง/น้ำตาลอ่อน */
+            font-weight: 500;
+            margin: 0 0 15px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-desc {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* แยกตำแหน่งให้ผู้ใหญ่บ้านเด่นสุด (อยู่ตรงกลางแถวแรก) */
+        .leader-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+        .leader-card {
+            max-width: 350px;
+            border: 2px solid var(--accent);
+        }
+        .leader-card .profile-img {
+            border-color: var(--accent);
+        }
+
+        /* --- Floating Buttons --- */
+        .float-back {
+            position: fixed; bottom: 40px; left: 40px;
+            background: var(--primary); color: var(--white);
+            padding: 12px 30px; border-radius: 50px;
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; font-size: 16px; font-weight: 600;
+            box-shadow: 0 8px 20px rgba(77, 51, 40, 0.3);
+            z-index: 1000; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .float-back:hover {
+            background: var(--accent); transform: translateX(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .float-theme {
+            position: fixed; bottom: 40px; right: 40px;
+            width: 50px; height: 50px; background: #ffffff; color: var(--accent);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 20px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            z-index: 1000; transition: all 0.3s ease; border: 1px solid #ddd;
+        }
+        .float-theme:hover { transform: scale(1.1); }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            header { padding: 60px 20px 40px; }
+            header h1 { font-size: 32px; }
+            .float-back { bottom: 25px; left: 20px; padding: 10px 24px; font-size: 14px; }
+            .float-theme { bottom: 25px; right: 20px; width: 45px; height: 45px; font-size: 16px; }
+        }
+
+        /* --- Dark Mode --- */
+        body.dark-mode { background-color: #121212; color: #e0e0e0; }
+        body.dark-mode header { background: #1a1a1a; }
+        body.dark-mode header h1 { color: #e0e0e0; }
+        body.dark-mode .profile-card {
+            background-color: #1e1e1e; border-color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        body.dark-mode .profile-card::before {
+            background: linear-gradient(to bottom, rgba(255, 175, 54, 0.05), transparent);
+        }
+        body.dark-mode .profile-name { color: #ffffff; }
+        body.dark-mode .profile-role { color: var(--accent); }
+        body.dark-mode .profile-desc { color: #aaaaaa; }
+        body.dark-mode .profile-img { border-color: #2a2a2a; }
+        body.dark-mode .leader-card { border-color: var(--accent); }
+        body.dark-mode .leader-card .profile-img { border-color: var(--accent); }
+
+        
+        body.dark-mode .float-back { background-color: #2a2a2a; color: var(--accent); border: 1px solid var(--accent); }
+        body.dark-mode .float-back:hover { background-color: var(--accent); color: #121212; }
+        body.dark-mode .float-theme { background: #000000; color: #ffdd00; border-color: #333; }
+        body.dark-mode header h1 i {
+            color: #ffaf36 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><i class="fa-solid fa-users"></i> คณะกรรมการหมู่บ้าน</h1>
+        <p>ผู้นำและบุคคลากรผู้ขับเคลื่อนการพัฒนาหมู่บ้านซับประดู่</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="leader-section">
+            <div class="profile-card leader-card">
+                <img src="https://img2.pic.in.th/pic/blank-profile.png" alt="รูปผู้ใหญ่บ้าน" class="profile-img" onerror="this.src='logo/logo.png'">
+                <h3 class="profile-name">นางบุญสิตา รัตนดิลก ณ ภูเก็ต</h3>
+                <p class="profile-role">ผู้ใหญ่บ้านซับประดู่ หมู่ 6</p>
+                <p class="profile-desc">ทำหน้าที่ประธานคณะกรรมการหมู่บ้าน ดูแลทะเบียนราษฎร โครงการชุมชน</p>
+            </div>
+        </div>
+
+        <div class="profile-grid">
+            
+            <div class="profile-card">
+                <img src="https://www.muakleksao.go.th/UserFiles/Image/2026/sapa/sodsai.jpg" alt="สมาชิก" class="profile-img" onerror="this.src='logo/logo.png'">
+                <h3 class="profile-name">นางสดใส สามี</h3>
+                <p class="profile-role">สมาชิกสภาองค์การบริหารส่วนตำบลหมู่ที่ 6</p>
+                <p class="profile-desc">ตัวแทนหมู่บ้านในการนำเสนอโครงการและประสานงานกับองค์การบริหารส่วนตำบล</p>
+            </div>
+        </div>
+
+    </div>
+
+    <a href="index.html" class="float-back"><i class="fa-solid fa-arrow-left"></i> กลับ</a>
+
+    <div class="float-theme" id="themeToggle" title="สลับโหมดหน้าจอ">
+        <i class="fa-solid fa-moon"></i>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleBtn = document.getElementById('themeToggle');
+            const body = document.body;
+            const icon = themeToggleBtn ? themeToggleBtn.querySelector('i') : null;
+
+            if (localStorage.getItem('theme') === 'dark') {
+                body.classList.add('dark-mode');
+                if(icon) icon.classList.replace('fa-moon', 'fa-sun'); 
+            }
+
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    body.classList.toggle('dark-mode');
+                    if (body.classList.contains('dark-mode')) {
+                        localStorage.setItem('theme', 'dark');
+                        if(icon) icon.classList.replace('fa-moon', 'fa-sun');
+                    } else {
+                        localStorage.setItem('theme', 'light');
+                        if(icon) icon.classList.replace('fa-sun', 'fa-moon');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
